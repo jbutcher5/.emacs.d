@@ -34,6 +34,12 @@
 
 ;; A few more useful configurations...
 (use-package emacs
+  :bind (("C-x w v" . split-window-horizontally)
+	 ("C-x w b" . split-window-vertically)
+	 ("C-x w l" . windmove-right)
+	 ("C-x w j" . windmove-down)
+	 ("C-x w k" . windmove-up)
+	 ("C-x w h" . windmove-left))
   :init
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
@@ -66,7 +72,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-nord t)
+  (load-theme 'doom-flatwhite t)
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
