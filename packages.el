@@ -20,7 +20,6 @@
   ;; :hook ((prog-mode . corfu-mode)
   ;;        (shell-mode . corfu-mode)
   ;;        (eshell-mode . corfu-mode))
-
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since Dabbrev can be used globally (M-/).
   ;; See also `corfu-exclude-modes'.
@@ -67,8 +66,16 @@
 
 (use-package evil
   :straight t
+  :init
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :straight t
+  :config
+  (evil-collection-init))
 
 (use-package doom-themes
   :straight t
@@ -80,3 +87,9 @@
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+(use-package xwidget
+  :bind ("C-c w" . (lambda () (interactive) (xwidget-webkit-browse-url "https://duck.com")))
+  :hook ((xwidget-webkit-mode . (lambda () (evil-mode 0)))
+	 (buffer-list-update . (lambda () (unless (eq major-mode 'minibuffer-inactive-mode)
+					    (evil-mode (if (derived-mode-p 'xwidget-webkit-mode) 0 1)))))))
