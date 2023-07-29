@@ -34,12 +34,13 @@
 
 ;; A few more useful configurations...
 (use-package emacs
-  :bind (("C-x w v" . split-window-horizontally)
-	 ("C-x w b" . split-window-vertically)
-	 ("C-x w l" . windmove-right)
-	 ("C-x w j" . windmove-down)
-	 ("C-x w k" . windmove-up)
-	 ("C-x w h" . windmove-left))
+  :bind (("C-c v" . split-window-horizontally)
+	 ("C-c b" . split-window-vertically)
+	 ("C-c l" . windmove-right)
+	 ("C-c j" . windmove-down)
+	 ("C-c k" . windmove-up)
+	 ("C-c h" . windmove-left)
+	 ("C-c c" . delete-window))
   :init
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
@@ -56,7 +57,10 @@
   (setq tab-always-indent 'complete))
 
 (use-package vterm
-  :straight t)
+  :straight t
+  :bind ("C-c t" . vterm)
+  :init
+  (setq shell-file-name "/usr/bin/bash"))
 
 (use-package sly
   :straight t)
