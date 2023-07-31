@@ -31,6 +31,14 @@
   :config
   (setq completion-category-defaults nil))
 
+(use-package eglot-ltex
+  :straight (eglot-ltex :type git :host github :repo "emacs-languagetool/eglot-ltex")
+  :hook (text-mode . (lambda ()
+                         (require 'eglot-ltex)
+                       (eglot-ensure)))
+  :init
+  (setq eglot-languagetool-server-path "~/.emacs.d/libs/ltex-ls-16.0.0"))
+
 ;; A few more useful configurations...
 (use-package emacs
   :bind (("C-c v" . split-window-horizontally)
