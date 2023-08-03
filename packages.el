@@ -83,13 +83,25 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-flatwhite t)
+  (load-theme 'modus-vivendi t)
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+(use-package doom-modeline
+  :straight t
+  :init (doom-modeline-mode 1))
 
 (use-package xwidget
   :bind ("C-c w" . (lambda () (interactive) (xwidget-webkit-browse-url "https://duck.com")))
   :hook ((xwidget-webkit-mode . (lambda () (evil-mode 0)))
 	 (buffer-list-update . (lambda () (unless (eq major-mode 'minibuffer-inactive-mode)
 					    (evil-mode (if (derived-mode-p 'xwidget-webkit-mode) 0 1)))))))
+
+(use-package dashboard
+  :straight t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-banner-logo-title "I'm sorry, Dave. I'm afraid I can't do that.") 
+  (setq dashboard-startup-banner "~/.emacs.d/splash.png")
+  (setq dashboard-center-content t))
