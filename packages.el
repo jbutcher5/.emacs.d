@@ -59,6 +59,12 @@
   :straight t
   :bind-keymap ("C-c p" . projectile-command-map))
 
+(use-package magit
+  :straight t
+  :bind (("C-x g" . magit-status)
+	 ("C-c g" . magit-dispatch)
+	 ("C-c g" . magit-file-dispatch)))
+
 (use-package vterm
   :straight t
   :bind ("C-c t" . vterm)
