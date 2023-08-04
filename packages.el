@@ -55,6 +55,10 @@
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete))
 
+(use-package projectile
+  :straight t
+  :bind-keymap ("C-c p" . projectile-command-map))
+
 (use-package vterm
   :straight t
   :bind ("C-c t" . vterm)
