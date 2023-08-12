@@ -102,11 +102,12 @@
   :straight t
   :init (doom-modeline-mode 1))
 
-(use-package xwidget
-  :bind ("C-c w" . (lambda () (interactive) (xwidget-webkit-browse-url "https://duck.com")))
-  :hook ((xwidget-webkit-mode . (lambda () (evil-mode 0)))
-	 (buffer-list-update . (lambda () (unless (eq major-mode 'minibuffer-inactive-mode)
-					    (evil-mode (if (derived-mode-p 'xwidget-webkit-mode) 0 1)))))))
+
+;; (use-package xwidget
+;;   :bind ("C-c w" . (lambda () (interactive) (xwidget-webkit-browse-url "https://duck.com")))
+;;   :hook ((xwidget-webkit-mode . (lambda () (evil-mode 0)))
+;; 	 (buffer-list-update . (lambda () (unless (eq major-mode 'minibuffer-inactive-mode)
+;; 					    (evil-mode (if (derived-mode-p 'xwidget-webkit-mode) 0 1)))))))
 
 (use-package dashboard
   :straight t
