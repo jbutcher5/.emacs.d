@@ -67,9 +67,7 @@
 
 (use-package vterm
   :straight t
-  :bind ("C-c t" . vterm)
-  :init
-  (setq shell-file-name "/usr/bin/bash"))
+  :bind ("C-c t" . vterm))
 
 (use-package sly
   :straight t)
