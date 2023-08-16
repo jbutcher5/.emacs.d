@@ -26,8 +26,13 @@
   :init
   (global-corfu-mode))
 
+(use-package haskell-mode
+  :straight t)
+
 (use-package eglot
-  :hook (c-mode . eglot-ensure)
+  :after haskell-mode
+  :hook ((haskell-mode . eglot-ensure)
+	 (c-mode . eglot-ensure))
   :config
   (setq completion-category-defaults nil))
 
@@ -43,9 +48,11 @@
   :init
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
+
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
+
   ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
   ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
   (setq read-extended-command-predicate
