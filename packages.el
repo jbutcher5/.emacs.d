@@ -29,10 +29,13 @@
 (use-package haskell-mode
   :straight t)
 
+(use-package python-mode
+  :straight t)
+
 (use-package eglot
-  :after haskell-mode
-  :hook ((haskell-mode . eglot-ensure)
-	 (c-mode . eglot-ensure))
+  :hook ((c-mode . eglot-ensure)
+	 (python-mode . eglot-ensure)
+     (haskell-node . eglot-ensure))
   :config
   (setq completion-category-defaults nil))
 
@@ -48,7 +51,7 @@
   :init
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
-
+  (setq ring-bell-function 'ignore)
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
