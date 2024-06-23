@@ -120,6 +120,9 @@
 (use-package haskell-mode
   :straight t)
 
+(use-package python-mode
+  :straight t)
+
 (use-package racket-mode
   :straight t)
 
@@ -127,6 +130,7 @@
   :hook ((haskell-mode . eglot-ensure)
 	 (c-mode . eglot-ensure)
 	 (racket-mode . eglot-ensure)
+	 (python-mode . eglot-ensure)
 	 (rust-mode . eglot-ensure)
 	 (clojure-mode . eglot-ensure))
   
@@ -174,7 +178,15 @@
   
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
+<<<<<<< HEAD
   
+=======
+<<<<<<< HEAD
+  (setq ring-bell-function 'ignore)
+=======
+  
+>>>>>>> c62d2d3 (Add corfu)
+>>>>>>> origin
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
