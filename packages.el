@@ -178,15 +178,7 @@
   
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
-<<<<<<< HEAD
-  
-=======
-<<<<<<< HEAD
   (setq ring-bell-function 'ignore)
-=======
-  
->>>>>>> c62d2d3 (Add corfu)
->>>>>>> origin
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
