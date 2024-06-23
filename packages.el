@@ -2,6 +2,16 @@
 
 (eval-when-compile (require 'use-package))
 
+(use-package auto-package-update
+  :straight t
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+(use-package flycheck
+  :straight t)
+
 (use-package corfu
   :straight t
   ;; Optional customizations
@@ -26,18 +36,111 @@
   :init
   (global-corfu-mode))
 
+
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (setq vertico-cycle t)
+  )
+
+;; Configure directory extension.
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; More convenient directory navigation commands
+  :bind (:map vertico-map
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Tidy shadowed file names
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :straight t
+  :init
+  (savehist-mode))
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :straight t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+;; IDO
+
+;; (use-package ido
+;;   :straight t
+;;   :config
+;;   (setq ido-everywhere t
+;;     ido-virtual-buffers t
+;;     ido-use-faces t
+;;     ido-default-buffer-method 'selected-window
+;;     ido-auto-merge-work-directories-length -1)
+;;   (ido-mode))
+;; (use-package flx-ido :straight t :requires ido :config (flx-ido-mode))
+;; (use-package ido-vertical-mode :straight t :requires ido :config (ido-vertical-mode))
+;; (use-package ido-completing-read+ :straight t :requires ido
+;;   :config
+;;   (setq ido-ubiquitous-max-items 50000
+;;     ido-cr+-max-items 50000)
+;;   (ido-ubiquitous-mode +1))
+
+(use-package clojure-mode
+  :straight t)
+
+(use-package cider
+  :straight t)
+
+(use-package rust-mode
+  :straight t)
+
+(use-package rustic
+  :straight t
+  :config
+  (setq rustic-lsp-client 'eglot))
+
 (use-package haskell-mode
   :straight t)
 
 (use-package python-mode
   :straight t)
 
+(use-package racket-mode
+  :straight t)
+
 (use-package eglot
-  :hook ((c-mode . eglot-ensure)
+  :hook ((haskell-mode . eglot-ensure)
+	 (c-mode . eglot-ensure)
+	 (racket-mode . eglot-ensure)
 	 (python-mode . eglot-ensure)
-     (haskell-node . eglot-ensure))
+	 (rust-mode . eglot-ensure)
+	 (clojure-mode . eglot-ensure))
+  
   :config
-  (setq completion-category-defaults nil))
+  (setq completion-category-defaults nil)
+  (add-to-list 'eglot-server-programs 
+             '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+  (add-to-list 'eglot-server-programs
+               '((rust-ts-mode rust-mode) .
+		 ("rust-analyzer" :initializationOptions (:check (:command "clippy"))))))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -49,9 +152,37 @@
 	 ("C-c h" . windmove-left)
 	 ("C-c c" . delete-window))
   :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (setq enable-recursive-minibuffers t)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+  ;; useful beyond Vertico.
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
+  
   (setq make-backup-files nil)
   (setq completion-cycle-threshold 3)
+<<<<<<< HEAD
   (setq ring-bell-function 'ignore)
+=======
+  
+>>>>>>> c62d2d3 (Add corfu)
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
@@ -63,7 +194,8 @@
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent 'complete)
+  )
 
 (use-package projectile
   :straight t
@@ -79,8 +211,8 @@
   :straight t
   :bind ("C-c t" . vterm))
 
-(use-package sly
-  :straight t)
+;;(use-package sly
+;;  :straight t)
 
 (use-package evil
   :straight t
