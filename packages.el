@@ -191,6 +191,9 @@
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
   (setq tab-always-indent 'complete)
+
+  (add-to-list 'default-frame-alist
+             '(font . "JetBrainsMono Nerd Font-12"))
   )
 
 (use-package projectile
