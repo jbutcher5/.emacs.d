@@ -36,6 +36,10 @@
   :init
   (global-corfu-mode))
 
+(use-package which-key
+  :straight t
+  :config
+  (which-key-mode))
 
 (use-package vertico
   :straight t
@@ -84,25 +88,6 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
-;; IDO
-
-;; (use-package ido
-;;   :straight t
-;;   :config
-;;   (setq ido-everywhere t
-;;     ido-virtual-buffers t
-;;     ido-use-faces t
-;;     ido-default-buffer-method 'selected-window
-;;     ido-auto-merge-work-directories-length -1)
-;;   (ido-mode))
-;; (use-package flx-ido :straight t :requires ido :config (flx-ido-mode))
-;; (use-package ido-vertical-mode :straight t :requires ido :config (ido-vertical-mode))
-;; (use-package ido-completing-read+ :straight t :requires ido
-;;   :config
-;;   (setq ido-ubiquitous-max-items 50000
-;;     ido-cr+-max-items 50000)
-;;   (ido-ubiquitous-mode +1))
-
 (use-package clojure-mode
   :straight t)
 
@@ -118,9 +103,6 @@
   (setq rustic-lsp-client 'eglot))
 
 (use-package haskell-mode
-  :straight t)
-
-(use-package python-mode
   :straight t)
 
 (use-package racket-mode
@@ -197,10 +179,6 @@
                '(font . "JetBrainsMono Nerd Font-12"))
   
   )
-
-(use-package projectile
-  :straight t
-  :bind-keymap ("C-c p" . projectile-command-map))
 
 (use-package magit
   :straight t
